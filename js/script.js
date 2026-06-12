@@ -4,51 +4,67 @@ const clearBtn = document.querySelector(".calc__clearBtn");
 const equalsBtn = document.querySelector(".calc__eqBtn");
 const operBtns = document.querySelectorAll(".calc__operBtn");
 
-let num1 = '';
-let num2 = '';
-let operator = '';
+//starting vars
+let num1 = "";
+let num2 = "";
+let operator = "";
 
-numBtns.forEach((numBtn) => numBtn.addEventListener("click", () => {
-  if (operator === '') {
-    takeNum1(numBtn);
-  } else {
-    takeNum2(numBtn);
-  }
-  console.log(num1, num2, operator);
-}));
-
-operBtns.forEach((operBtn) =>
-  operBtn.addEventListener("click", () => {
-    operator = operBtn.textContent;
-    clearDisplay();
+//nums button listener
+numBtns.forEach((numBtn) =>
+  numBtn.addEventListener("click", (event) => {
+    if (operator === "") {
+      takeNum1(event);
+    } else {
+      takeNum2(event);
+    }
+    console.log(num1, num2, operator);
   }),
 );
 
-equalsBtn.addEventListener('click', () => {
+// operators button listener
+operBtns.forEach((operBtn) =>
+  operBtn.addEventListener("click", () => {
+    if (num1 !== "" && num2 !== "") {
+      display.textContent = operate(operator, +num1, +num2);
+      num1 = display.textContent;
+      display.textContent = '';
+      num2 = '';
+      operator = operBtn.textContent;
+    } else {
+      operator = operBtn.textContent;
+      clearDisplay();
+    }
+    console.log(num1, num2, operator);
+  }),
+);
+
+//equal button listener
+equalsBtn.addEventListener("click", () => {
   display.textContent = operate(operator, +num1, +num2);
 });
 
+//clear button listener
 clearBtn.addEventListener("click", () => clearCalc());
 
-function takeNum1(numBtn) {
-  display.textContent += numBtn.textContent;
+function takeNum1(event) {
+  display.textContent += event.target.textContent;
   num1 = display.textContent;
 }
 
-function takeNum2(numBtn) {
-  display.textContent += numBtn.textContent;
+function takeNum2(event) {
+  display.textContent += event.target.textContent;
   num2 = display.textContent;
 }
 
 function clearCalc() {
-  num1 = '';
-  num2 = '';
-  operator = '';
+  num1 = "";
+  num2 = "";
+  operator = "";
   display.textContent = "";
 }
 
 function clearDisplay() {
-  display.textContent = '';
+  display.textContent = "";
 }
 
 function operate(operator, num1, num2) {
