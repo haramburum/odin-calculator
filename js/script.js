@@ -3,8 +3,8 @@ const numBtns = document.querySelectorAll(".calc__numBtn");
 const clearBtn = document.querySelector(".calc__clearBtn");
 const equalsBtn = document.querySelector(".calc__eqBtn");
 const operBtns = document.querySelectorAll(".calc__operBtn");
-const dotBtn = document.querySelector('.calc__dotBtn');
-const backBtn = document.querySelector('.calc_backBtn');
+const dotBtn = document.querySelector(".calc__dotBtn");
+const backBtn = document.querySelector(".calc_backBtn");
 
 //starting vars
 let num1 = "";
@@ -18,7 +18,7 @@ let isResultDisplayed = false;
 numBtns.forEach((numBtn) =>
   numBtn.addEventListener("click", (event) => {
     if (isResultDisplayed) {
-      console.log('check')
+      console.log("check");
       clearData();
       isResultDisplayed = false;
     }
@@ -33,8 +33,8 @@ operBtns.forEach((operBtn) =>
   operBtn.addEventListener("click", (event) => {
     isResultDisplayed = false;
 
-    if (num2 === '0' && operator === '/') {
-      display.textContent = '^ERROR^';
+    if (num2 === "0" && operator === "/") {
+      display.textContent = "^ERROR^";
       clearData();
       return;
     }
@@ -54,7 +54,7 @@ operBtns.forEach((operBtn) =>
 //equal button listener
 equalsBtn.addEventListener("click", () => {
   calculateResult();
-  console.log('click');
+  console.log("click");
   isResultDisplayed = true;
 });
 
@@ -62,20 +62,21 @@ equalsBtn.addEventListener("click", () => {
 clearBtn.addEventListener("click", () => clearCalc());
 
 //dot button
-dotBtn.addEventListener('click', (event) => {
+dotBtn.addEventListener("click", (event) => {
   let displayData = display.textContent;
-  if (!displayData.includes('.') && displayData !== '') {
+  if (!displayData.includes(".") && displayData !== "") {
     takeNums(event);
   }
 });
 
 //back btn
-backBtn.addEventListener('click', () => {
-  if (isResultDisplayed || (num1 !== '' && num2 === '' && operator !== '')) return;
+backBtn.addEventListener("click", () => {
+  if (isResultDisplayed || (num1 !== "" && num2 === "" && operator !== ""))
+    return;
 
   let displayData = display.textContent;
 
-  if (operator === '') {
+  if (operator === "") {
     num1 = displayData.slice(0, displayData.length - 1);
     display.textContent = num1;
   } else {
@@ -83,7 +84,7 @@ backBtn.addEventListener('click', () => {
     display.textContent = num2;
   }
   console.log(num1, num2, operator);
-})
+});
 
 function calculateResult() {
   if ((num1 === "" && num2 === "") || operator === "") {
@@ -108,6 +109,13 @@ function calculateResult() {
 }
 
 function takeNums(event) {
+  if (
+    (operator === "" && num1.length >= 17) ||
+    (operator !== "" && num2.length >= 17)
+  ) {
+    return;
+  }
+
   if (operator === "") {
     num1 += event.target.textContent;
     display.textContent = num1;
