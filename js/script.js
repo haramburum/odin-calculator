@@ -4,6 +4,7 @@ const clearBtn = document.querySelector(".calc__clearBtn");
 const equalsBtn = document.querySelector(".calc__eqBtn");
 const operBtns = document.querySelectorAll(".calc__operBtn");
 const dotBtn = document.querySelector('.calc__dotBtn');
+const backBtn = document.querySelector('.calc_backBtn');
 
 //starting vars
 let num1 = "";
@@ -27,7 +28,7 @@ numBtns.forEach((numBtn) =>
   }),
 );
 
-// operators button listener
+//operators button listener
 operBtns.forEach((operBtn) =>
   operBtn.addEventListener("click", (event) => {
     isResultDisplayed = false;
@@ -67,6 +68,22 @@ dotBtn.addEventListener('click', (event) => {
     takeNums(event);
   }
 });
+
+//back btn
+backBtn.addEventListener('click', () => {
+  if (isResultDisplayed || (num1 !== '' && num2 === '' && operator !== '')) return;
+
+  let displayData = display.textContent;
+
+  if (operator === '') {
+    num1 = displayData.slice(0, displayData.length - 1);
+    display.textContent = num1;
+  } else {
+    num2 = displayData.slice(0, displayData.length - 1);
+    display.textContent = num2;
+  }
+  console.log(num1, num2, operator);
+})
 
 function calculateResult() {
   if ((num1 === "" && num2 === "") || operator === "") {
