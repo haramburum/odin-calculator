@@ -39,7 +39,7 @@ equalsBtn.addEventListener("click", () => calculateResult());
 clearBtn.addEventListener("click", () => clearCalc());
 
 function calculateResult() {
-  let result = Math.round(operate(operator, +num1, +num2));
+  let result = Math.round(operate(operator, +num1, +num2) * 1000000000) / 1000000000;;
   display.textContent = result;
   return result;
 }
