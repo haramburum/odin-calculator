@@ -24,7 +24,7 @@ operBtns.forEach((operBtn) =>
       calculateResult();
       operator = event.target.textContent;
       num1 = display.textContent;
-      num2 = '';
+      num2 = "";
     } else {
       operator = event.target.textContent;
       console.log(num1, num2, operator);
@@ -39,10 +39,18 @@ equalsBtn.addEventListener("click", () => calculateResult());
 clearBtn.addEventListener("click", () => clearCalc());
 
 function calculateResult() {
-  if (num1 === '' && num2 === '' || operator === '') {
+  if ((num1 === "" && num2 === "") || operator === "") {
     return;
-  } 
-  let result = Math.round(operate(operator, +num1, +num2) * 1000000000) / 1000000000;;
+  }
+
+  if (+num2 === 0) {
+    display.textContent = "^ERROR^";
+    clearData();
+    return;
+  }
+
+  let result =
+    Math.round(operate(operator, +num1, +num2) * 1000000000) / 1000000000;
   display.textContent = result;
   return result;
 }
@@ -66,6 +74,12 @@ function clearCalc() {
 
 function clearDisplay() {
   display.textContent = "";
+}
+
+function clearData() {
+  num1 = "";
+  num2 = "";
+  operator = "";
 }
 
 function operate(operator, num1, num2) {
