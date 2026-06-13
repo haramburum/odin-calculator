@@ -12,48 +12,46 @@ let operator = "";
 //nums button listener
 numBtns.forEach((numBtn) =>
   numBtn.addEventListener("click", (event) => {
-    if (operator === "") {
-      takeNum1(event);
-    } else {
-      takeNum2(event);
-    }
+    takeNums(event);
     console.log(num1, num2, operator);
   }),
 );
 
 // operators button listener
 operBtns.forEach((operBtn) =>
-  operBtn.addEventListener("click", () => {
+  operBtn.addEventListener("click", (event) => {
     if (num1 !== "" && num2 !== "") {
-      display.textContent = operate(operator, +num1, +num2);
+      calculateResult();
+      operator = event.target.textContent;
       num1 = display.textContent;
-      display.textContent = '';
       num2 = '';
-      operator = operBtn.textContent;
     } else {
-      operator = operBtn.textContent;
-      clearDisplay();
+      operator = event.target.textContent;
+      console.log(num1, num2, operator);
     }
-    console.log(num1, num2, operator);
   }),
 );
 
 //equal button listener
-equalsBtn.addEventListener("click", () => {
-  display.textContent = operate(operator, +num1, +num2);
-});
+equalsBtn.addEventListener("click", () => calculateResult());
 
 //clear button listener
 clearBtn.addEventListener("click", () => clearCalc());
 
-function takeNum1(event) {
-  display.textContent += event.target.textContent;
-  num1 = display.textContent;
+function calculateResult() {
+  let result = Math.round(operate(operator, +num1, +num2));
+  display.textContent = result;
+  return result;
 }
 
-function takeNum2(event) {
-  display.textContent += event.target.textContent;
-  num2 = display.textContent;
+function takeNums(event) {
+  if (operator === "") {
+    num1 += event.target.textContent;
+    display.textContent = num1;
+  } else {
+    num2 += event.target.textContent;
+    display.textContent = num2;
+  }
 }
 
 function clearCalc() {
