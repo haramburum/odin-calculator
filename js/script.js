@@ -3,6 +3,7 @@ const numBtns = document.querySelectorAll(".calc__numBtn");
 const clearBtn = document.querySelector(".calc__clearBtn");
 const equalsBtn = document.querySelector(".calc__eqBtn");
 const operBtns = document.querySelectorAll(".calc__operBtn");
+const dotBtn = document.querySelector('.calc__dotBtn');
 
 //starting vars
 let num1 = "";
@@ -58,6 +59,14 @@ equalsBtn.addEventListener("click", () => {
 
 //clear button listener
 clearBtn.addEventListener("click", () => clearCalc());
+
+//dot button
+dotBtn.addEventListener('click', (event) => {
+  let displayData = display.textContent;
+  if (!displayData.includes('.') && displayData !== '') {
+    takeNums(event);
+  }
+});
 
 function calculateResult() {
   if ((num1 === "" && num2 === "") || operator === "") {
