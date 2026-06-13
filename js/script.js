@@ -77,7 +77,6 @@ function numsHandler(symbol) {
     isResultDisplayed = false;
   }
   takeNums(symbol);
-  console.log(num1, num2, operator);
 }
 
 function dotHandler() {
@@ -101,7 +100,6 @@ function backHandler() {
     num2 = displayData.slice(0, displayData.length - 1);
     display.textContent = num2;
   }
-  console.log(num1, num2, operator);
 }
 
 function calculateResult() {
@@ -123,7 +121,6 @@ function calculateResult() {
   operator = "";
 
   display.textContent = num1;
-  console.log(num1, num2, operator);
 }
 
 function handleOperator(operSymbol) {
@@ -142,7 +139,6 @@ function handleOperator(operSymbol) {
     num2 = "";
   } else {
     operator = operSymbol;
-    console.log(num1, num2, operator);
   }
 }
 
@@ -172,10 +168,6 @@ function clearCalc() {
   num1 = "";
   num2 = "";
   operator = "";
-  display.textContent = "";
-}
-
-function clearDisplay() {
   display.textContent = "";
 }
 
