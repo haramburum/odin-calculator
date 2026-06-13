@@ -16,61 +16,79 @@ let isResultDisplayed = false;
 
 //nums button listener
 numBtns.forEach((numBtn) =>
-  numBtn.addEventListener("click", (event) => {
-    if (isResultDisplayed) {
-      console.log("check");
-      clearData();
-      isResultDisplayed = false;
-    }
-
-    takeNums(event);
-    console.log(num1, num2, operator);
+  numBtn.addEventListener("click", () => {
+    let symbol = numBtn.textContent;
+    numsHandler(symbol);
   }),
 );
 
 //operators button listener
 operBtns.forEach((operBtn) =>
-  operBtn.addEventListener("click", (event) => {
-    isResultDisplayed = false;
-
-    if (num2 === "0" && operator === "/") {
-      display.textContent = "^ERROR^";
-      clearData();
-      return;
-    }
-
-    if (num1 !== "" && num2 !== "") {
-      calculateResult();
-      operator = event.target.textContent;
-      display.textContent = num1;
-      num2 = "";
-    } else {
-      operator = event.target.textContent;
-      console.log(num1, num2, operator);
-    }
+  operBtn.addEventListener("click", (e) => {
+    let operSymbol = operBtn.textContent;
+    handleOperator(operSymbol);
   }),
 );
 
 //equal button listener
-equalsBtn.addEventListener("click", () => {
-  calculateResult();
-  console.log("click");
-  isResultDisplayed = true;
-});
+equalsBtn.addEventListener("click", () => handleEqual());
 
 //clear button listener
 clearBtn.addEventListener("click", () => clearCalc());
 
 //dot button
-dotBtn.addEventListener("click", (event) => {
-  let displayData = display.textContent;
-  if (!displayData.includes(".") && displayData !== "") {
-    takeNums(event);
+dotBtn.addEventListener("click", (event) => dotHandler());
+
+//back btn
+backBtn.addEventListener("click", () => backHandler());
+
+//keyboard listeners
+window.addEventListener("keydown", (event) => {
+  switch (true) {
+    case "0123456789".includes(event.key):
+      numsHandler(event.key);
+      break;
+    case "+-*/".includes(event.key):
+      handleOperator(event.key);
+      break;
+    case event.key === ".":
+      dotHandler();
+      break;
+    case event.key === "=":
+      handleEqual();
+      break;
+    case event.key === "Escape":
+      clearCalc();
+      break;
+    case event.key === "Backspace":
+      backHandler();
+      break;
+    case event.key === "Enter":
+      event.preventDefault();
+      handleEqual();
+      break;
   }
 });
 
-//back btn
-backBtn.addEventListener("click", () => {
+//FUNCTIONS
+function numsHandler(symbol) {
+  if (isResultDisplayed) {
+    clearData();
+    isResultDisplayed = false;
+  }
+  takeNums(symbol);
+  console.log(num1, num2, operator);
+}
+
+function dotHandler() {
+  let displayData = display.textContent;
+  if (!displayData.includes(".") && displayData !== "") {
+    let symbol = dotBtn.textContent;
+    takeNums(symbol);
+  }
+}
+
+function backHandler() {
   if (isResultDisplayed || (num1 !== "" && num2 === "" && operator !== ""))
     return;
 
@@ -84,7 +102,7 @@ backBtn.addEventListener("click", () => {
     display.textContent = num2;
   }
   console.log(num1, num2, operator);
-});
+}
 
 function calculateResult() {
   if ((num1 === "" && num2 === "") || operator === "") {
@@ -108,7 +126,32 @@ function calculateResult() {
   console.log(num1, num2, operator);
 }
 
-function takeNums(event) {
+function handleOperator(operSymbol) {
+  isResultDisplayed = false;
+
+  if (num2 === "0" && operator === "/") {
+    display.textContent = "^ERROR^";
+    clearData();
+    return;
+  }
+
+  if (num1 !== "" && num2 !== "") {
+    calculateResult();
+    operator = operSymbol;
+    display.textContent = num1;
+    num2 = "";
+  } else {
+    operator = operSymbol;
+    console.log(num1, num2, operator);
+  }
+}
+
+function handleEqual() {
+  calculateResult();
+  isResultDisplayed = true;
+}
+
+function takeNums(symbol) {
   if (
     (operator === "" && num1.length >= 17) ||
     (operator !== "" && num2.length >= 17)
@@ -117,10 +160,10 @@ function takeNums(event) {
   }
 
   if (operator === "") {
-    num1 += event.target.textContent;
+    num1 += symbol;
     display.textContent = num1;
   } else {
-    num2 += event.target.textContent;
+    num2 += symbol;
     display.textContent = num2;
   }
 }
