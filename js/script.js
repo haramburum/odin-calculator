@@ -30,6 +30,13 @@ numBtns.forEach((numBtn) =>
 operBtns.forEach((operBtn) =>
   operBtn.addEventListener("click", (event) => {
     isResultDisplayed = false;
+
+    if (num2 === '0' && operator === '/') {
+      display.textContent = '^ERROR^';
+      clearData();
+      return;
+    }
+
     if (num1 !== "" && num2 !== "") {
       calculateResult();
       operator = event.target.textContent;
