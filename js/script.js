@@ -12,8 +12,12 @@ let operator = "";
 //nums button listener
 numBtns.forEach((numBtn) =>
   numBtn.addEventListener("click", (event) => {
-    takeNums(event);
-    console.log(num1, num2, operator);
+    if (num1 !== "" && num2 !== "" && operator !== "") {
+      clearData();
+    } else {
+      takeNums(event);
+      console.log(num1, num2, operator);
+    }
   }),
 );
 
@@ -25,6 +29,7 @@ operBtns.forEach((operBtn) =>
       operator = event.target.textContent;
       num1 = display.textContent;
       num2 = "";
+      console.log(num1, num2, operator);
     } else {
       operator = event.target.textContent;
       console.log(num1, num2, operator);
@@ -52,6 +57,7 @@ function calculateResult() {
   let result =
     Math.round(operate(operator, +num1, +num2) * 1000000000) / 1000000000;
   display.textContent = result;
+  console.log(num1, num2, operator);
   return result;
 }
 
