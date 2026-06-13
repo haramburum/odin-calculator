@@ -9,27 +9,32 @@ let num1 = "";
 let num2 = "";
 let operator = "";
 
+//FLAGS
+let isResultDisplayed = false;
+
 //nums button listener
 numBtns.forEach((numBtn) =>
   numBtn.addEventListener("click", (event) => {
-    if (num1 !== "" && num2 !== "" && operator !== "") {
+    if (isResultDisplayed) {
+      console.log('check')
       clearData();
-    } else {
-      takeNums(event);
-      console.log(num1, num2, operator);
+      isResultDisplayed = false;
     }
+
+    takeNums(event);
+    console.log(num1, num2, operator);
   }),
 );
 
 // operators button listener
 operBtns.forEach((operBtn) =>
   operBtn.addEventListener("click", (event) => {
+    isResultDisplayed = false;
     if (num1 !== "" && num2 !== "") {
       calculateResult();
       operator = event.target.textContent;
-      num1 = display.textContent;
+      display.textContent = num1;
       num2 = "";
-      console.log(num1, num2, operator);
     } else {
       operator = event.target.textContent;
       console.log(num1, num2, operator);
@@ -38,7 +43,11 @@ operBtns.forEach((operBtn) =>
 );
 
 //equal button listener
-equalsBtn.addEventListener("click", () => calculateResult());
+equalsBtn.addEventListener("click", () => {
+  calculateResult();
+  console.log('click');
+  isResultDisplayed = true;
+});
 
 //clear button listener
 clearBtn.addEventListener("click", () => clearCalc());
@@ -54,11 +63,15 @@ function calculateResult() {
     return;
   }
 
-  let result =
-    Math.round(operate(operator, +num1, +num2) * 1000000000) / 1000000000;
-  display.textContent = result;
+  num1 = (
+    Math.round(operate(operator, +num1, +num2) * 1000000000) / 1000000000
+  ).toString();
+
+  num2 = "";
+  operator = "";
+
+  display.textContent = num1;
   console.log(num1, num2, operator);
-  return result;
 }
 
 function takeNums(event) {
